@@ -1,0 +1,10 @@
+{
+  "name": null,
+  "use_selene": true,
+  "use_luals": true,
+  "__prompts__": {
+    "name": "Name",
+    "use_selene": "Do you use Selene for linting?",
+    "use_luals": "Do you use the Lua language server?"
+  }
+}

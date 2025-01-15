@@ -1,0 +1,4 @@
+# Linter config files
+.luarc.json
+love.yml
+selene.toml

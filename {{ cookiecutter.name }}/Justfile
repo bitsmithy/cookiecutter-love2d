@@ -1,0 +1,61 @@
+[private]
+default:
+  @just --list
+
+[private]
+alias r := run
+
+# Run the game
+[linux]
+run:
+  love .
+
+# Generate a configuration for LuaLS
+[unix]
+luals:
+  #!/usr/bin/env bash
+  cat >| .luarc.json <<- 'EOF'
+  {
+    "runtime.special": {
+      "love.filesystem.load": "loadfile"
+    },
+    "workspace.library": [
+      "${3rd}/love2d/library"
+    ]
+  }
+  EOF
+
+# Use jacob-herrera/love.yml + love2d-community/love-api from Github to
+# Generate a linter config compatible with Selene
+[unix]
+selene:
+  #!/usr/bin/env bash
+  set -euxo pipefail
+
+  # Create and set a tmp directory as the working directory
+  export TMPDIR="/tmp/selene-love"
+  mkdir -p "${TMPDIR}"
+  cd "${TMPDIR}"
+
+  # Download the script to generate love.yml
+  curl -O -L https://raw.githubusercontent.com/jacob-herrera/love.yml/refs/heads/main/main.lua
+
+  # Instead of using the hardcoded base value lua51, use the current Lua runtime version
+  export LUAVERSION=$(lua -e 'print((_VERSION:lower():gsub("[ .]", "")))')
+  sed -i "s/lua51/${LUAVERSION}/" main.lua
+
+  # Download the love-api docs
+  git clone https://github.com/love2d-community/love-api
+
+  # Move the love-api docs into place and generate the linter configuration
+  mv love-api/love_api.lua .
+  mv love-api/modules .
+  lua main.lua
+
+  # Move the generated linter config to the right place
+  cd -
+  mv "${TMPDIR}/love.yml" .
+  rm -rf "${TMPDIR}"
+
+  # (Re)-create the Selene configuration
+  echo "std = \"${LUAVERSION}+love\"" >| selene.toml
