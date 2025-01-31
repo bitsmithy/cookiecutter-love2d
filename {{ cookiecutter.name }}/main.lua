@@ -54,13 +54,14 @@ love.mousepressed = function(x, y, button, _, presses)
 end
 
 love.mousereleased = function(x, y, button, _, presses)
-  if conf.isDebug() then
+  logger.debug(function()
     local msg = "Mouse " .. button .. " released @ (" .. x .. ", " .. y .. ")"
     if presses > 1 then
       msg = msg .. " " .. presses .. " times"
     end
-    logger.debug(msg)
-  end
+
+    return msg
+  end)
   input.mouse_release(x, y, button, presses)
 end
 

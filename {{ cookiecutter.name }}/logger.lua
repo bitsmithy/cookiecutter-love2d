@@ -35,12 +35,20 @@ end
 
 ---Creates a logging function with the specified level
 ---@param level Level
----@return fun(msg: string)
+---@return fun(msg: string | fun(): string)
 local function logWithLevel(level)
-  ---@param msg string
+  ---@param msg string | fun(): string A string or a function that returns a string to be logged
   return function(msg)
     if isLevelEnabled(level) then
-      log(level, msg)
+      local m
+
+      if type(msg) == "function" then
+        m = msg()
+      else
+        m = msg
+      end
+
+      log(level, m)
     end
   end
 end
