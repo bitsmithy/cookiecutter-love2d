@@ -4,7 +4,11 @@ local conf = require("conf")
 local world = require("world")
 local input = require("input")
 
+local NAME = "{{ cookiecutter.name }}"
+
 love.load = function()
+  love.window.setTitle(NAME)
+
   -- Check all command line arguments
   for i = 1, #arg do
     if arg[i] == "--debug" then
@@ -21,7 +25,7 @@ love.draw = function()
     love.graphics.print("Mouse Coordinates: " .. love.mouse.getX() .. ", " .. love.mouse.getY(), 0, 0)
   end
 
-  love.graphics.print("Hello {{ cookiecutter.name }}!", 400, 300)
+  love.graphics.print("Hello " .. NAME .. "!", 400, 300)
 end
 
 love.focus = function(focused)
