@@ -3,6 +3,7 @@ local conf = require("conf")
 
 local world = require("world")
 local input = require("input")
+local entities = require("entities")
 
 local NAME = "{{ cookiecutter.name }}"
 
@@ -26,6 +27,12 @@ love.draw = function()
   end
 
   love.graphics.print("Hello " .. NAME .. "!", 400, 300)
+
+  for _, e in ipairs(entities) do
+    if e.draw then
+      e:draw()
+    end
+  end
 end
 
 love.focus = function(focused)
@@ -66,5 +73,11 @@ love.mousereleased = function(x, y, button, _, presses)
 end
 
 love.update = function(dt)
+  for _, e in ipairs(entities) do
+    if e.update then
+      e:update(dt)
+    end
+  end
+
   world:update(dt)
 end
