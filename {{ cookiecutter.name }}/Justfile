@@ -5,10 +5,18 @@ default:
 [private]
 alias r := run
 
+[private]
+alias d := debug
+
 # Run the game
 [linux]
 run:
   love .
+
+# Run the game in debug mode
+[linux]
+debug:
+  love . --debug
 
 # Generate a configuration for LuaLS
 [unix]
