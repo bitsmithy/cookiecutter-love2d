@@ -73,11 +73,11 @@ love.mousereleased = function(x, y, button, _, presses)
 end
 
 love.update = function(dt)
+  world:update(dt)
+
   for _, e in ipairs(entities) do
     if e.update then
       e:update(dt)
     end
   end
-
-  world:update(dt)
 end
