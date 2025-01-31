@@ -4,7 +4,7 @@ local conf = require("conf")
 local world = require("world")
 local input = require("input")
 
-function love.load()
+love.load = function()
   -- Check all command line arguments
   for i = 1, #arg do
     if arg[i] == "--debug" then
@@ -30,12 +30,34 @@ end
 
 love.keypressed = function(key)
   logger.debug("Key pressed: " .. key)
-  input.press(key)
+  input.key_press(key)
 end
 
 love.keyreleased = function(key)
   logger.debug("Key released: " .. key)
-  input.release(key)
+  input.key_release(key)
+end
+
+love.mousepressed = function(x, y, button, _, presses)
+  if conf.isDebug() then
+    local msg = "Mouse " .. button .. " pressed @ (" .. x .. ", " .. y .. ")"
+    if presses > 1 then
+      msg = msg .. " " .. presses .. " times"
+    end
+    logger.debug(msg)
+  end
+  input.mouse_press(x, y, button, presses)
+end
+
+love.mousereleased = function(x, y, button, _, presses)
+  if conf.isDebug() then
+    local msg = "Mouse " .. button .. " released @ (" .. x .. ", " .. y .. ")"
+    if presses > 1 then
+      msg = msg .. " " .. presses .. " times"
+    end
+    logger.debug(msg)
+  end
+  input.mouse_release(x, y, button, presses)
 end
 
 love.update = function(dt)
