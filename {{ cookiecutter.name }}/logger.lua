@@ -29,7 +29,7 @@ local function log(level, msg)
   local time = socket.gettime()
   local secs = math.floor(time)
   local msecs = math.floor((time - secs) * 1000000)
-  local ts = os.date("%y-%m-%d %H:%M:%S", secs) .. string.format(".%06d", msecs)
+  local ts = os.date("%H:%M:%S", secs) .. string.format(".%06d", msecs)
   print(ts .. " [" .. string.upper(level) .. "] " .. msg)
 end
 
