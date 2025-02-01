@@ -41,12 +41,12 @@ end
 
 love.keypressed = function(key)
   logger.debug("Key pressed: " .. key)
-  input.key_press(key)
+  input.key.press(key)
 end
 
 love.keyreleased = function(key)
   logger.debug("Key released: " .. key)
-  input.key_release(key)
+  input.key.release(key)
 end
 
 love.mousepressed = function(x, y, button, _, presses)
@@ -57,7 +57,7 @@ love.mousepressed = function(x, y, button, _, presses)
     end
     logger.debug(msg)
   end
-  input.mouse_press(x, y, button, presses)
+  input.mouse.press(x, y, button, presses)
 end
 
 love.mousereleased = function(x, y, button, _, presses)
@@ -69,7 +69,7 @@ love.mousereleased = function(x, y, button, _, presses)
 
     return msg
   end)
-  input.mouse_release(x, y, button, presses)
+  input.mouse.release(x, y, button, presses)
 end
 
 love.update = function(dt)
